@@ -5,8 +5,41 @@
  */
 
 require('./bootstrap');
-
 window.Vue = require('vue');
+
+
+//Router
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+
+import {routes} from './routes.js'
+
+//V-Form
+import { Form, HasError, AlertError } from 'vform'
+
+window.Form = Form;
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
+
+//Sweet Alert
+import Swal from 'sweetalert2';
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
+});
+window.Toast = Toast;
+
+//VueX
+
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import state from './store/index.js'
+const store = new Vuex.Store({
+  state
+})
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -20,13 +53,20 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('admin-main', require('./components/admin/AdminMaster.vue').default);
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+
+
+
+
+const router = new VueRouter({
+  routes, // short for `routes: routes`
+  mode: 'history', //bo dau # phia sau dg dan
+})
+
 
 const app = new Vue({
     el: '#app',
+    router,
+    store,
 });
