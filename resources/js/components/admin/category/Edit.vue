@@ -7,11 +7,11 @@
 						<!-- general form elements -->
 						<div class="card card-primary">
 							<div class="card-header">
-								<h3 class="card-title">Add New Category</h3>
+								<h3 class="card-title">Edit Category: {{this.$route.params.id}}</h3>
 							</div>
 							<!-- /.card-header -->
 							<!-- form start -->
-							<form role="form" v-on:submit.prevent="addCategory()">
+							<form role="form" v-on:submit.prevent="updateCategory()">
 								<div class="card-body">
 									<div class="form-group">
 										<label for="categoryId">Category Name</label>
@@ -28,7 +28,7 @@
 								<!-- /.card-body -->
 
 								<div class="card-footer">
-									<button type="submit" class="btn btn-primary">Add</button>
+									<button type="submit" class="btn btn-primary">Save</button>
 								</div>
 							</form>
 						</div>
@@ -45,6 +45,18 @@
 
 <script>
 	export default {
+		name: 'Edit',
+		mounted(){
+			axios.get(`/edit-category/${this.$route.params.id}`)
+				.then((response) => {
+
+					this.form.fill(response.data.categories)
+					
+				})
+				.catch(() => {
+
+				})
+		},
 		data (){
 			return {
 				form: new Form({
@@ -53,21 +65,20 @@
 			}
 		},
 		methods: {
-			addCategory (){
-				this.form.post('/add-category')
-				.then((response) => {
-					
-					this.$router.push('/category-list')
+			updateCategory (){
+				this.form.post(`/update-category/${this.$route.params.id}`)
+					.then(() => {
 
-					Toast.fire({
-						type: 'success',
-						title: 'Category added successfully'
+						this.$router.push('/category-list')
+
+						Toast.fire({
+							type: 'success',
+							title: 'Category edited successfully'
+						})
 					})
-				})
-				.catch(() => {
+					.catch(() => {
 
-				})
-
+					})
 			}
 		}
 	}

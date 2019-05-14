@@ -7,6 +7,11 @@
 require('./bootstrap');
 window.Vue = require('vue');
 
+//Moment JS
+import moment from 'moment';
+
+//Filter Vuejs
+import {filter} from './filter.js'
 
 //Router
 import VueRouter from 'vue-router'
@@ -36,9 +41,9 @@ window.Toast = Toast;
 import Vuex from 'vuex'
 Vue.use(Vuex)
 import state from './store/index.js'
-const store = new Vuex.Store({
+const store = new Vuex.Store(
   state
-})
+)
 
 
 /**
@@ -61,7 +66,7 @@ Vue.component('admin-main', require('./components/admin/AdminMaster.vue').defaul
 
 const router = new VueRouter({
   routes, // short for `routes: routes`
-  mode: 'history', //bo dau # phia sau dg dan
+  mode: 'hash', //bo dau # phia sau dg dan
 })
 
 
