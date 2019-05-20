@@ -66,6 +66,12 @@
 		mounted (){
 			this.$store.dispatch("allCategory");
 		},
+		computed: {
+			getAllCategory(){
+				return this.$store.getters.getCategory
+			}
+			
+		},
 		methods: {
 			deleteCategory (id){
 				axios.get('/category/'+id)
@@ -77,13 +83,6 @@
 						})
 					})
 			}
-		},
-		computed: {
-			getAllCategory(){
-				return this.$store.getters.getCategory
-
-			}
-			
 		}
 	}
 </script>

@@ -21,10 +21,10 @@ import {routes} from './routes.js'
 
 //V-Form
 import { Form, HasError, AlertError } from 'vform'
-
 window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
+
 
 //Sweet Alert
 import Swal from 'sweetalert2';
@@ -35,15 +35,25 @@ const Toast = Swal.mixin({
   timer: 3000
 });
 window.Toast = Toast;
+window.Swal = Swal;
+
+
 
 //VueX
-
 import Vuex from 'vuex'
 Vue.use(Vuex)
 import state from './store/index.js'
 const store = new Vuex.Store(
   state
 )
+
+//Mardown Editor -> Vuejs Example
+import 'v-markdown-editor/dist/index.css';
+import Editor from 'v-markdown-editor'
+// global register
+Vue.use(Editor);
+
+
 
 
 /**

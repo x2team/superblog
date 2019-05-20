@@ -7,21 +7,21 @@
 						<!-- general form elements -->
 						<div class="card card-primary">
 							<div class="card-header">
-								<h3 class="card-title">Add New Category</h3>
+								<h3 class="card-title">Add New Post</h3>
 							</div>
 							<!-- /.card-header -->
 							<!-- form start -->
-							<form role="form" v-on:submit.prevent="addCategory()">
+							<form role="form" v-on:submit.prevent="addPost()">
 								<div class="card-body">
 									<div class="form-group">
-										<label for="categoryId">Category Name</label>
+										<label for="postId">Post Name</label>
 										<input :class="{ 'is-invalid': form.errors.has('name') }" 
 										v-model="form.name"
 										name="name" 
 										type="text" 
 										class="form-control" 
-										id="categoryId" 
-										placeholder="Enter Category name">
+										id="postId" 
+										placeholder="Enter Post name">
 										<has-error :form="form" field="name"></has-error>
 									</div>
 								</div>
@@ -45,12 +45,19 @@
 
 <script>
 	export default {
+		name: 'New',
 		data (){
 			return {
 				form: new Form({
 					name: ''
 				})
 			}
+		},
+		mouted() {
+
+		},
+		computed: {
+
 		},
 		methods: {
 			addCategory (){

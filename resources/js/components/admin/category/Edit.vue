@@ -50,7 +50,7 @@
 			axios.get(`/edit-category/${this.$route.params.id}`)
 				.then((response) => {
 
-					this.form.fill(response.data.categories)
+					this.form.fill(response.data.category)
 					
 				})
 				.catch(() => {

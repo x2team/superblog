@@ -7,6 +7,8 @@ use App\Category;
 
 class CategoryController extends Controller
 {
+ 
+
     public function add(Request $request){
     	$this->validate($request, [
     		'name' => 'required|min:2|max:50|unique:categories',
@@ -24,6 +26,10 @@ class CategoryController extends Controller
     	return response()->json([
     		'categories' => $categories
     	], 200);
+
+        // dump($abc);
+
+        // return $abc;
     }
 
     public function delete($id){
@@ -37,7 +43,7 @@ class CategoryController extends Controller
     	$category = Category::findOrFail($id);
     	
     	return response()->json([
-    		'categories' => $category,
+    		'category' => $category,
     	], 200);
     }
 
