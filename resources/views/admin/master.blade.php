@@ -123,8 +123,8 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     
-      {{-- <admin-main></admin-main> --}}
-      <router-view></router-view>
+      <admin-main></admin-main>
+      {{-- <router-view></router-view> --}}
       {{-- @yield('content') --}}
   </div>
 

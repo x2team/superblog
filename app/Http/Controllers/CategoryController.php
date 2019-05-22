@@ -8,7 +8,10 @@ use App\Category;
 class CategoryController extends Controller
 {
  
-
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
     public function add(Request $request){
     	$this->validate($request, [
     		'name' => 'required|min:2|max:50|unique:categories',

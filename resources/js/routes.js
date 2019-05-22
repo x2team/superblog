@@ -12,4 +12,13 @@ export let routes = [
   { path: '/post-list', component: require('./components/admin/post/List.vue').default },
   { path: '/add-post', component: require('./components/admin/post/New.vue').default },
   { path: '/edit-post/:id', component: require('./components/admin/post/Edit.vue').default },
+
+
+
+
+  //FontEnd Routes
+	{ path: '/', component: require('./components/public/PublicHome.vue').default },
+	{ path: '/blog', component: require('./components/public/blog/BlogPost.vue').default },
+	{ path: '/blog/:id', component: require('./components/public/blog/SingleBlog.vue').default },
+	{ path: '/categories/:id', component: require('./components/public/blog/BlogPost.vue').default },
 ]
