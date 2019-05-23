@@ -4374,9 +4374,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      categoryItem: [],
+      select: '',
+      all_select: false
+    };
   },
   name: 'List',
   mounted: function mounted() {
@@ -4399,6 +4418,34 @@ __webpack_require__.r(__webpack_exports__);
           title: 'Category deleted successfully'
         });
       });
+    },
+    deleteSelected: function deleteSelected() {
+      var _this2 = this;
+
+      if (this.categoryItem != '') {
+        axios.get('/deletecategory/' + this.categoryItem).then(function (response) {
+          _this2.categoryItem = [];
+
+          _this2.$store.dispatch("allCategory");
+
+          Toast.fire({
+            type: 'success',
+            title: 'Category deleted successfully'
+          });
+        });
+      }
+    },
+    selectedAll: function selectedAll() {
+      if (this.all_select == false) {
+        this.all_select = true;
+
+        for (var category in this.getAllCategory) {
+          this.categoryItem.push(this.getAllCategory[category].id);
+        }
+      } else {
+        this.all_select = false;
+        this.categoryItem = [];
+      }
     }
   }
 });
@@ -5090,7 +5137,7 @@ __webpack_require__.r(__webpack_exports__);
     BlogSidebar: _BlogSidebar_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   mounted: function mounted() {
-    this.$store.dispatch('getBlogPost');
+    this.$store.dispatch('getBlogPost'); // console.log(this.$store.dispatch('searchPost'));
   },
   computed: {
     blogPost: function blogPost() {
@@ -5124,6 +5171,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -5192,6 +5241,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "BlogSidebar",
   data: function data() {
@@ -5200,7 +5250,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.$store.dispatch('allCategory_public');
+    // this.$store.dispatch('allCategory_public');
+    this.$store.dispatch('latestPost');
     this.$store.dispatch('getBlogPost');
   },
   computed: {
@@ -5208,13 +5259,13 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.allCategory_public;
     },
     blogPost: function blogPost() {
-      return this.$store.getters.getBlogPost;
+      return this.$store.getters.latestPost;
     }
   },
   methods: {
-    realSearch: function realSearch() {
+    realSearch: lodash__WEBPACK_IMPORTED_MODULE_0___default.a.debounce(function () {
       this.$store.dispatch('searchPost', this.keyword);
-    }
+    }, 1000)
   }
 });
 
@@ -83627,13 +83678,128 @@ var render = function() {
                   attrs: { id: "example2" }
                 },
                 [
-                  _vm._m(0),
+                  _c("thead", [
+                    _c("tr", [
+                      _c("th", [
+                        _c(
+                          "select",
+                          {
+                            attrs: { name: "", id: "" },
+                            on: { change: _vm.deleteSelected }
+                          },
+                          [
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("Select")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("Delete All")
+                            ])
+                          ]
+                        ),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.all_select,
+                              expression: "all_select"
+                            }
+                          ],
+                          attrs: { type: "checkbox", value: "" },
+                          domProps: {
+                            checked: Array.isArray(_vm.all_select)
+                              ? _vm._i(_vm.all_select, "") > -1
+                              : _vm.all_select
+                          },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.selectedAll($event)
+                            },
+                            change: function($event) {
+                              var $$a = _vm.all_select,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = "",
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 &&
+                                    (_vm.all_select = $$a.concat([$$v]))
+                                } else {
+                                  $$i > -1 &&
+                                    (_vm.all_select = $$a
+                                      .slice(0, $$i)
+                                      .concat($$a.slice($$i + 1)))
+                                }
+                              } else {
+                                _vm.all_select = $$c
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.all_select == false
+                          ? _c("span", [_vm._v("Check All")])
+                          : _c("span", [_vm._v("UnCheck All")])
+                      ]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Name")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Date")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Action")])
+                    ])
+                  ]),
                   _vm._v(" "),
                   _c(
                     "tbody",
                     _vm._l(_vm.getAllCategory, function(category, index) {
                       return _c("tr", { key: category.id }, [
-                        _c("td", [_vm._v(_vm._s(category.id))]),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.categoryItem,
+                                expression: "categoryItem"
+                              }
+                            ],
+                            attrs: { type: "checkbox" },
+                            domProps: {
+                              value: category.id,
+                              checked: Array.isArray(_vm.categoryItem)
+                                ? _vm._i(_vm.categoryItem, category.id) > -1
+                                : _vm.categoryItem
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a = _vm.categoryItem,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = category.id,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      (_vm.categoryItem = $$a.concat([$$v]))
+                                  } else {
+                                    $$i > -1 &&
+                                      (_vm.categoryItem = $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1)))
+                                  }
+                                } else {
+                                  _vm.categoryItem = $$c
+                                }
+                              }
+                            }
+                          })
+                        ]),
                         _vm._v(" "),
                         _c("td", [
                           _vm._v(
@@ -83689,24 +83855,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("STT")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Date")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Action")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -83743,7 +83892,7 @@ var render = function() {
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
-                      return _vm.addPost()
+                      return _vm.addCategory()
                     }
                   }
                 },
@@ -102218,7 +102367,8 @@ __webpack_require__.r(__webpack_exports__);
     post: [],
     blogpost: [],
     singlepost: [],
-    allCategoryPublic: []
+    allCategoryPublic: [],
+    latestPost: []
   },
   getters: {
     getCategory: function getCategory(state) {
@@ -102234,8 +102384,10 @@ __webpack_require__.r(__webpack_exports__);
       return state.singlepost;
     },
     allCategory_public: function allCategory_public(state) {
-      // console.log(state.allCategoryPublic);
       return state.allCategoryPublic;
+    },
+    latestPost: function latestPost(state) {
+      return this.state.latestPost;
     }
   },
   mutations: {
@@ -102259,6 +102411,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     getSearchPost: function getSearchPost(state, data) {
       state.blogpost = data;
+    },
+    latestPost: function latestPost(state, data) {
+      state.latestPost = data;
     }
   },
   actions: {
@@ -102301,6 +102456,11 @@ __webpack_require__.r(__webpack_exports__);
     searchPost: function searchPost(context, payload) {
       axios.get('/search?s=' + payload).then(function (response) {
         context.commit("getSearchPost", response.data.posts);
+      });
+    },
+    latestPost: function latestPost(context) {
+      axios.get('/latestpost').then(function (response) {
+        context.commit("latestPost", response.data.posts);
       });
     }
   }

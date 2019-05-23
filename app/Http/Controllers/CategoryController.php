@@ -63,4 +63,13 @@ class CategoryController extends Controller
 
     }
 
+    public function deletecategory($ids){
+        $all_id = explode(",", $ids);
+
+        foreach($all_id as $id){
+            $category = Category::findOrFail($id);
+            $category->delete();
+        }
+    }
+
 }

@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/category/{id}', 'CategoryController@delete');
 	Route::get('/edit-category/{id}', 'CategoryController@edit');
 	Route::post('/update-category/{id}', 'CategoryController@update');
+	Route::get('/deletecategory/{id}', 'CategoryController@deleteCategory');
 
 //Post
 	Route::get('/post', 'PostController@all');
@@ -45,3 +46,4 @@ Route::get('/singlepost/{id}', 'BlogController@get_post_by_id');
 Route::get('/categories', 'BlogController@get_all_category');
 Route::get('/categorypost/{id}', 'BlogController@get_all_post_by_cate_id');
 Route::get('/search', 'BlogController@search');
+Route::get('/latestpost', 'BlogController@latestPost');

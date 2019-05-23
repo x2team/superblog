@@ -18,7 +18,19 @@
 							<table id="example2" class="table table-bordered table-hover">
 								<thead>
 									<tr>
-										<th>STT</th>
+										<th>
+											<select name="" id="" @change="deleteSelected">
+												<option value="">Select</option>
+												<option value="">Delete All</option>
+											</select><br>
+											<input type="checkbox"
+													v-on:click.prevent="selectedAll"
+													v-model="all_select"
+													value="" 
+													>
+													<span v-if="all_select==false">Check All</span>
+													<span v-else>UnCheck All</span>
+										</th>
 										<th>Name</th>
 										<th>Date</th>
 										<th>Action</th>
@@ -26,7 +38,10 @@
 								</thead>
 								<tbody>
 									<tr v-for="(category, index) in getAllCategory" v-bind:key="category.id">
-										<td>{{category.id}}</td>
+										<td><input type="checkbox" 
+													v-bind:value="category.id" 
+													v-model="categoryItem">
+										</td>
 										<td>
 											{{category.name}}
 										</td>
@@ -59,7 +74,9 @@
 	export default {
 		data (){
 			return {
-
+				categoryItem: [],
+				select: '',
+				all_select: false,
 			}
 		},
 		name: 'List',
@@ -82,6 +99,35 @@
 							title: 'Category deleted successfully'
 						})
 					})
+			},
+			deleteSelected(){
+				if(this.categoryItem!= ''){
+					axios.get('/deletecategory/'+this.categoryItem)
+					.then((response) => {
+
+						this.categoryItem = [];
+
+						this.$store.dispatch("allCategory");
+						Toast.fire({
+							type: 'success',
+							title: 'Category deleted successfully'
+						})
+					})
+				}
+				
+			},
+			selectedAll(){
+
+				if(this.all_select == false){
+					this.all_select = true;
+					for (var category in this.getAllCategory) {
+						this.categoryItem.push(this.getAllCategory[category].id);
+					}
+				}
+				else{
+					this.all_select = false;
+					this.categoryItem = [];
+				}
 			}
 		}
 	}

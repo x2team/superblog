@@ -11,7 +11,7 @@
 							</div>
 							<!-- /.card-header -->
 							<!-- form start -->
-							<form role="form" v-on:submit.prevent="addPost()">
+							<form role="form" v-on:submit.prevent="addCategory()">
 								<div class="card-body">
 									<div class="form-group">
 										<label for="postId">Post Name</label>

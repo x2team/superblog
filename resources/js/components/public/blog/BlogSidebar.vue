@@ -67,6 +67,9 @@
 
 
 <script>
+
+	import _ from 'lodash'
+
 	export default {
 		name: "BlogSidebar",
 		data(){
@@ -75,7 +78,8 @@
 			}
 		},
 		mounted() {
-			this.$store.dispatch('allCategory_public');
+			// this.$store.dispatch('allCategory_public');
+			this.$store.dispatch('latestPost');
 			this.$store.dispatch('getBlogPost');
 		},
 		computed: {
@@ -83,13 +87,14 @@
 				return this.$store.getters.allCategory_public;
 			},
 			blogPost(){
-				return this.$store.getters.getBlogPost;
+				return this.$store.getters.latestPost;
 			}
 		},
 		methods: {
-			realSearch(){
+
+			realSearch: _.debounce(function(){
 				this.$store.dispatch('searchPost', this.keyword);
-			}
+			}, 1000)
 		}
 
 	}

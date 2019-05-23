@@ -84,6 +84,7 @@
 		},
 		mounted() {
 			this.$store.dispatch('getBlogPost');
+			// console.log(this.$store.dispatch('searchPost'));
 		},
 		computed: {
 			blogPost(){
